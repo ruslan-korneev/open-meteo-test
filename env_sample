@@ -1,0 +1,15 @@
+PROJECT_NAME=open-meteo
+
+# Django
+SECRET_KEY='Django secrete key'
+DEBUG=1
+SERVER_PORT=8000
+RAPIDOC_PORT=9000
+
+# Database
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=postgres
+POSTGRES_PORT=5432
+# to use django locally (not in container) with postgres - change postgres host to `localhost`
+POSTGRES_HOST=db

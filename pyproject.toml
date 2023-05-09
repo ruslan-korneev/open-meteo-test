@@ -30,6 +30,10 @@ mypy = "^1.2.0"
 ruff = "^0.0.265"
 pytest-factoryboy = "^2.5.1"
 
+
+[tool.poetry.group.spectacular.dependencies]
+drf-spectacular = "^0.26.2"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

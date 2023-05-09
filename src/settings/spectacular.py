@@ -6,8 +6,8 @@ REST_FRAMEWORK["DEFAULT_SCHEMA_CLASS"] = "drf_spectacular.openapi.AutoSchema"
 INSTALLED_APPS.append("drf_spectacular")
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Application Server",
-    "DESCRIPTION": "application server",
+    "TITLE": "Open Meteo Application Server",
+    "DESCRIPTION": "open meteo application server",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_NO_READ_ONLY_REQUIRED": True,

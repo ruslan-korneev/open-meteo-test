@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    container_name: ${PROJECT-projectname}-db
+    env_file:
+      - .env
+    ports:
+      - ${POSTGRES_PORT-5432}:5432
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    depends_on:
+      - db
+    restart: always
+    container_name: ${PROJECT-projectname}-server
+    volumes:
+      - ./static:/opt/pysetup/src/static
+      - ./media:/opt/pysetup/src/media
+    env_file: .env
+    ports:
+      - ${SERVER_PORT-8000}:8000
+
+  open-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rapidoc-run
+    restart: always
+    container_name: ${PROJECT-projectname}-open-api
+    env_file: .env
+    depends_on:
+      - server
+    ports:
+      - ${RAPIDOC_PORT-9000}:80
+
+volumes:
+  postgres_data:

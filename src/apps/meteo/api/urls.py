@@ -5,7 +5,7 @@ from src.apps.meteo.api.views import WeatherViewSet
 
 
 router = DefaultRouter()
-router.register("", WeatherViewSet, basename="weather")
+router.register("weather", WeatherViewSet, basename="weather")
 
 urlpatterns = [
     path("", include(router.urls)),
