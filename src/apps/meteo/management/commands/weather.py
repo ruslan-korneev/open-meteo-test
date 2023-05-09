@@ -33,7 +33,7 @@ class Command(BaseCommand):
             type=str,
             choices=OutputFormats,
             nargs="?",
-            help=f"Output format",
+            help="Output format",
             default=OutputFormats.csv,
         )
 
