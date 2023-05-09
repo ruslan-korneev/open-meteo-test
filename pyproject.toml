@@ -1,0 +1,70 @@
+[tool.poetry]
+name = "test-assignment-open-meteo"
+version = "0.1.0"
+description = ""
+authors = ["Ruslan <shaggybackend@gmail.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+gunicorn = "^20.1.0"
+django = "^4.2.1"
+djangorestframework = "^3.14.0"
+psycopg2-binary = "^2.9.6"
+python-dotenv = "^1.0.0"
+requests = "^2.30.0"
+django-extensions = "^3.2.1"
+django-filter = "^23.2"
+djangorestframework-camel-case = "^1.4.2"
+
+
+[tool.poetry.group.development.dependencies]
+ipython = "^8.13.2"
+pre-commit = "^3.3.1"
+django-stubs = "^4.2.0"
+djangorestframework-stubs = "^3.14.0"
+pytest = "^7.3.1"
+pytest-django = "^4.5.2"
+mypy = "^1.2.0"
+ruff = "^0.0.265"
+pytest-factoryboy = "^2.5.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+ignore_missing_imports = true
+exclude = '''(?x)(
+    .*migrations/.*\.py$
+)'''
+plugins = [
+    "mypy_django_plugin.main",
+    "mypy_drf_plugin.main",
+]
+django_settings_module = "src.settings"
+
+[tool.django-stubs]
+django_settings_module = "src.settings"
+ignore_missing_model_attributes = true
+
+[tool.poetry.scripts]
+dj = "src.manage:main"
+
+[tool.ruff]
+ignore = ["F401", "F403", "F405"]
+exclude = [
+    "migrations",
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+]
+line-length = 120
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "src.settings.test"
+addopts = "--nomigrations -x"
+testpaths = "src"
+norecursedirs = "settings migrations templates views serializers admin mocks mock"
