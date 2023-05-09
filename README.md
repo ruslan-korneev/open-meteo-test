@@ -28,7 +28,7 @@
 poetry install
 pre-commit install
 cat env_sample > .env
-echo "DJANGO_SETTINGS_MODULE=app.settings.local" >> .env
+echo "DJANGO_SETTINGS_MODULE=src.settings.local" >> .env
 dj migrate
 ```
 
@@ -51,6 +51,7 @@ cat env_sample > .env  # change the values
 ```bash
 docker-compose up -d
 ```
+> Wargning! open-api(rapidoc) works only on linux/amd64 platform, that issue was not solved yet
 
 # CLI Usage
 ## Weather
@@ -76,9 +77,8 @@ dj weather "New York" 2021-01-01 2021-01-02 json
 ```
 
 # API Documentation
-You can check the API documentation at [`api/v1/docs/`](https://open-meteo.shaggy-dev.com/api/v1/docs/) endpoints.
 ## Weather
-### List - [`api/v1/meteo/weather/`](https://open-meteo.shaggy-dev.com/api/v1/meteo/weather/)
+### List - `api/v1/meteo/weather/`
 list of weather data for a place specified as a parameter (if city not found, it will return 404, it's not a cli command)
 - **Method:** `GET`
 - **Query Params:**
@@ -88,7 +88,7 @@ list of weather data for a place specified as a parameter (if city not found, it
 #### Request
 ```zsh
 curl -X 'GET' \
-  'https://open-meteo.shaggy-dev.com/api/v1/meteo/weather/?city=New%20York&startDate=2021-01-01&endDate=2021-01-02' \
+  'http://localhost:8000/api/v1/meteo/weather/?city=New%20York&startDate=2021-01-01&endDate=2021-01-02' \
   -H 'accept: application/json'
 ```
 #### Response
@@ -124,7 +124,7 @@ curl -X 'GET' \
 ]
 ```
 
-### Differences - [`api/v1/meteo/weather/differences/`](https://open-meteo.shaggy-dev.com/api/v1/meteo/weather/differences/)
+### Differences - `api/v1/meteo/weather/differences/`
 differences between the forecast and measured values for this place
 - **Method:** `GET`
 - **Query Params:**
@@ -134,7 +134,7 @@ differences between the forecast and measured values for this place
 #### Request
 ```zsh
 curl -X 'GET' \
-  'https://open-meteo.shaggy-dev.com/api/v1/meteo/weather/differences/?city=New%20York&startDate=2021-01-01&endDate=2021-01-02' \
+  'http://localhost:8000/api/v1/meteo/weather/differences/?city=New%20York&startDate=2021-01-01&endDate=2021-01-02' \
   -H 'accept: application/json'
 ```
 #### Response
