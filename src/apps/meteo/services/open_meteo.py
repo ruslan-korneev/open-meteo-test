@@ -53,7 +53,6 @@ class OpenMeteoBackend:
             "daily": ",".join(self.__fields_for_fetch),
             "timezone": settings.TIME_ZONE,
         }
-        # assert False, params
         forecast_data = self.send_request(settings.OPEN_METEO_API, "forecast", **params)
         measured_data = self.send_request(
             settings.OPEN_METEO_HISTORICAL_API, "archive", **params
@@ -83,7 +82,8 @@ class OpenMeteoBackend:
                 weathers.append(weather)
 
         WeatherData.objects.bulk_create(weather_data)
-        return Weather.objects.bulk_create(weathers)
+        Weather.objects.bulk_create(weathers)
+        return Weather.objects.filter(city=city, date__range=(start_date, end_date))
 
     @staticmethod
     def get_weather_if_not_complete(city: "City", date_: date) -> tuple[Weather, bool]:

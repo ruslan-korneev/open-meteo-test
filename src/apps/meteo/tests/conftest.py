@@ -68,7 +68,7 @@ def mock_open_meteo_responses(settings):
                     "windspeed_10m_max": "km/h",
                 },
                 "daily": {
-                    "time": ["2023-05-01", "2023-05-02"],
+                    "time": ["2020-01-01", "2020-01-02"],
                     "temperature_2m_max": [17.5, 14.3],
                     "temperature_2m_min": [10.2, 8.6],
                     "precipitation_sum": [0.30, 0.00],
@@ -94,7 +94,7 @@ def mock_open_meteo_responses(settings):
                     "windspeed_10m_max": "km/h",
                 },
                 "daily": {
-                    "time": ["2023-05-01", "2023-05-02"],
+                    "time": ["2020-01-01", "2020-01-02"],
                     "temperature_2m_max": [16.7, 13.0],
                     "temperature_2m_min": [8.1, 7.9],
                     "precipitation_sum": [3.90, 0.00],
@@ -140,7 +140,6 @@ def mock_open_meteo_requests(mock_requests, mock_open_meteo_responses):
             response.json.return_value = mock_data["json_data"]
         else:
             assert False, f"Unknown URL: {url}"
-            response.status_code = 500  # Set a default status code for unknown URLs
         return response
 
     mock_requests.side_effect = mock_get

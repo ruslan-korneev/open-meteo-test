@@ -40,6 +40,7 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
+        # Validating input
         output = options.pop("output")
         serializer = GetWeatherSerializer(data=options)
         try:
@@ -47,6 +48,8 @@ class Command(BaseCommand):
         except DRFValidationError as e:
             self.stdout.write(self.style.ERROR(str(e)))
             raise SystemExit(1)
+
+        # Fetching city
         try:
             city, _ = City.objects.get_or_create(
                 name=serializer.validated_data["city_name"]
@@ -60,6 +63,8 @@ class Command(BaseCommand):
                 )
             )
             raise SystemExit(1)
+
+        # Fetching weather
         backend = OpenMeteoBackend()
         try:
             result = backend.get_weather_for_city(
@@ -78,10 +83,24 @@ class Command(BaseCommand):
             )
             result = Weather.objects.filter(
                 city=city,
-                date__gte=serializer.validated_data["start_date"],
-                date__lte=serializer.validated_data["end_date"],
+                date__range=(
+                    serializer.validated_data["start_date"],
+                    serializer.validated_data["end_date"],
+                ),
             )
 
+        # Checking if there is any data
+        if not result:
+            self.stdout.write(
+                self.style.WARNING(
+                    f"No weather data for city {city.name} "
+                    f"between {serializer.validated_data['start_date']} "
+                    f"and {serializer.validated_data['end_date']}"
+                )
+            )
+            return
+
+        # Saving weather data
         path_to_file = self.save_weather_data(list(result), output)
         self.stdout.write(
             self.style.SUCCESS(
