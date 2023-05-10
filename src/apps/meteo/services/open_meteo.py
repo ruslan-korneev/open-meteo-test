@@ -79,7 +79,8 @@ class OpenMeteoBackend:
                 weather_data.append(weather.measured)
             if weather.forecast is not None:
                 weather_data.append(weather.forecast)
-            weathers.append(weather)
+            if weather.pk is None:
+                weathers.append(weather)
 
         WeatherData.objects.bulk_create(weather_data)
         return Weather.objects.bulk_create(weathers)
