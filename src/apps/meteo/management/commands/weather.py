@@ -1,7 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.management.base import BaseCommand
-from django.db import models
+from django.db import models, transaction
 from requests import HTTPError
+from rest_framework.exceptions import ValidationError as DRFValidationError
 
 from src.apps.meteo.api.serializers import GetWeatherSerializer
 from src.apps.meteo.exceptions import OpenMeteoValidationError
@@ -37,10 +38,15 @@ class Command(BaseCommand):
             default=OutputFormats.csv,
         )
 
+    @transaction.atomic
     def handle(self, *args, **options):
         output = options.pop("output")
         serializer = GetWeatherSerializer(data=options)
-        serializer.is_valid(raise_exception=True)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except DRFValidationError as e:
+            self.stdout.write(self.style.ERROR(str(e)))
+            raise SystemExit(1)
         try:
             city, _ = City.objects.get_or_create(
                 name=serializer.validated_data["city_name"]
@@ -53,7 +59,7 @@ class Command(BaseCommand):
                     f"Please check the city name."
                 )
             )
-            return
+            raise SystemExit(1)
         backend = OpenMeteoBackend()
         try:
             result = backend.get_weather_for_city(
@@ -65,7 +71,7 @@ class Command(BaseCommand):
                     f"Error while getting weather data from OpenMeteo API: {e}"
                 )
             )
-            return
+            raise SystemExit(1)
         except ValidationError as e:
             self.stdout.write(
                 self.style.WARNING(f"Error while saving weather data to database: {e}")

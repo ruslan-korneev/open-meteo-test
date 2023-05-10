@@ -8,6 +8,14 @@ class GetWeatherSerializer(serializers.Serializer):
     start_date = serializers.DateField()
     end_date = serializers.DateField()
 
+    def validate(self, attrs):
+        if attrs["start_date"] > attrs["end_date"]:
+            raise serializers.ValidationError(
+                {"start_date": "Start date cannot be greater than end date."}
+            )
+
+        return attrs
+
 
 class WeatherDataSerializer(serializers.ModelSerializer):
     class Meta:

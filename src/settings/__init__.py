@@ -123,10 +123,9 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# OPEN-METEO and OPEN-WEATHER-MAP API
+# OPEN-METEO API
 OPEN_METEO_API = "https://api.open-meteo.com/v1/"
 OPEN_METEO_HISTORICAL_API = "https://archive-api.open-meteo.com/v1/"
-
 OPEN_METEO_GEO_API = "https://geocoding-api.open-meteo.com/v1/"
 
 WEATHER_DATA_PATH = os.path.join(BASE_DIR, "weather_data")

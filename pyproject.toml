@@ -29,6 +29,8 @@ pytest-django = "^4.5.2"
 mypy = "^1.2.0"
 ruff = "^0.0.265"
 pytest-factoryboy = "^2.5.1"
+pytest-socket = "^0.6.0"
+pytest-mock = "^3.10.0"
 
 
 [tool.poetry.group.spectacular.dependencies]
@@ -69,6 +71,6 @@ line-length = 120
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "src.settings.test"
-addopts = "--nomigrations -x"
+addopts = "--nomigrations -x --disable-socket"
 testpaths = "src"
 norecursedirs = "settings migrations templates views serializers admin mocks mock"
