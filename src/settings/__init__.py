@@ -8,7 +8,7 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", default="pfjw9832ujr3twet023ujthn340uth3wjtlox")
-DEBUG = bool(os.getenv("DEBUG", default=1))
+DEBUG = False
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
@@ -99,23 +99,6 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
-
-# # Redis
-# REDIS_HOST = os.environ.get("REDIS_HOST", "0.0.0.0")
-# REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
-# REDIS_CACHE_LOCATION = os.environ.get("REDIS_CACHE_LOCATION", "1")
-#
-# # Cache
-# CACHE_KEY_PREFIX = os.environ.get("CACHE_KEY_PREFIX", "example")
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CACHE_LOCATION}",
-#         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-#         "KEY_PREFIX": CACHE_KEY_PREFIX,
-#     }
-# }
-# CACHE_TTL = 60 * 15  # Cache time to live is 15 minutes
 
 
 # Internationalization
